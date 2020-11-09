@@ -411,4 +411,22 @@ public class DES {
 
         return convertBinaryToString(plaintext.toString());
     }
+
+    // Function to create a new random key
+    public String CreateKey()
+    {
+        StringBuilder key = new StringBuilder();
+        while(key.length() != 64)
+        {
+            if(Math.random() < 0.5)
+            {
+                key.append('0');
+            }
+            else
+            {
+                key.append('1');
+            }
+        }
+        return key.toString();
+    }
 }
