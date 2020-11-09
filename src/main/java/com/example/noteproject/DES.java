@@ -6,7 +6,7 @@ import java.math.BigInteger;
 // Source code: https://www.educative.io/edpresso/how-to-implement-the-des-algorithm-in-cpp
 public class DES {
     // The initial permutation table
-    private final int[] initial_permutation =
+    private static final int[] initial_permutation =
             {
                     58, 50, 42, 34, 26, 18, 10, 2,
                     60, 52, 44, 36, 28, 20, 12, 4,
@@ -20,7 +20,7 @@ public class DES {
 
     // The PC1 table
     //int pc1[56] = {
-    private final int[] pc1 =
+    private static final int[] pc1 =
             {
                     57, 49, 41, 33, 25, 17, 9,
                     1, 58, 50, 42, 34, 26, 18,
@@ -34,7 +34,7 @@ public class DES {
 
     // The PC2 table
     //int pc2[48] = {
-    private final int[] pc2 =
+    private static final int[] pc2 =
             {
                     14, 17, 11, 24, 1, 5,
                     3, 28, 15, 6, 21, 10,
@@ -47,7 +47,7 @@ public class DES {
             };
 
     // The expansion table
-    private final int[] expansion_table =
+    private static final int[] expansion_table =
             {
                     32, 1, 2, 3, 4, 5, 4, 5,
                     6, 7, 8, 9, 8, 9, 10, 11,
@@ -59,7 +59,7 @@ public class DES {
 
     // The substitution boxes. The should contain values
     // from 0 to 15 in any order.
-    private final int[][][] substitution_boxes =
+    private static final int[][][] substitution_boxes =
             {
                     {
                             {14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7},
@@ -113,7 +113,7 @@ public class DES {
 
     // The permutation table
     //int permutation_tab[32] =
-    private final int[] permutation_tab =
+    private static final int[] permutation_tab =
             {
                     16, 7, 20, 21, 29, 12, 28, 17,
                     1, 15, 23, 26, 5, 18, 31, 10,
@@ -123,7 +123,7 @@ public class DES {
 
     // The inverse permutation table
     //int inverse_permutation[64] =
-    private final int[] inverse_permutation =
+    private static final int[] inverse_permutation =
             {
                     40, 8, 48, 16, 56, 24, 64, 32,
                     39, 7, 47, 15, 55, 23, 63, 31,
@@ -136,19 +136,19 @@ public class DES {
             };
 
     // Function to convert a string to binary
-    private String convertStringToBinary(String text)
+    private static String convertStringToBinary(String text)
     {
         return new BigInteger(text.getBytes()).toString(2);
     }
 
     // Function to convert a binary number to a string
-    private String convertBinaryToString(String binary)
+    private static String convertBinaryToString(String binary)
     {
         return new String(new BigInteger(binary, 2).toByteArray());
     }
 
     // Function to convert a number in decimal to binary
-    private String convertDecimalToBinary(int decimal)
+    private static String convertDecimalToBinary(int decimal)
     {
         StringBuilder binaryBuilder = new StringBuilder();
         while (decimal != 0)
@@ -165,7 +165,7 @@ public class DES {
     }
 
     // Function to convert a number in binary to decimal
-    private int convertBinaryToDecimal(String binary)
+    private static int convertBinaryToDecimal(String binary)
     {
         int decimal = 0;
         int counter = 0;
@@ -183,7 +183,7 @@ public class DES {
     }
 
     // Function to do a circular left shift by 1
-    private String shift_left_once(String key_chunk)
+    private static String shift_left_once(String key_chunk)
     {
         StringBuilder shifted = new StringBuilder();
         for (int i = 1; i < 28; i++)
@@ -195,7 +195,7 @@ public class DES {
     }
 
     // Function to do a circular left shift by 2
-    private String shift_left_twice(String key_chunk)
+    private static String shift_left_twice(String key_chunk)
     {
         StringBuilder shifted = new StringBuilder();
         for (int i = 0; i < 2; i++) {
@@ -211,7 +211,7 @@ public class DES {
     }
 
     // Function to compute xor between two strings
-    private String Xor(String a, String b)
+    private static String Xor(String a, String b)
     {
         StringBuilder result = new StringBuilder();
         //int size = b.size();
@@ -230,7 +230,7 @@ public class DES {
     }
 
     // Function to generate the 16 keys.
-    private String[] generate_keys(String key)
+    private static String[] generate_keys(String key)
     {
         // Array to hold the 16 keys
         String[] round_keys = new String[16];
@@ -274,7 +274,7 @@ public class DES {
     }
 
     // Implementing the algorithm
-    private String algorithm(String message, String[] round_keys)
+    private static String algorithm(String message, String[] round_keys)
     {
         //1. Applying the initial permutation
         StringBuilder perm = new StringBuilder();
@@ -341,7 +341,7 @@ public class DES {
     }
 
     // Function to encrypt a message with a given (random) key
-    public String Encrypt(String message, String key)
+    public static String Encrypt(String message, String key)
     {
         String[] round_keys;
         round_keys = generate_keys(key);
@@ -371,7 +371,8 @@ public class DES {
         return ciphertext.toString();
     }
 
-    public String Decrypt(String ciphertext, String key)
+    // Function to decrypt ciphertext
+    public static String Decrypt(String ciphertext, String key)
     {
         String[] round_keys;
         round_keys = generate_keys(key);
@@ -413,7 +414,7 @@ public class DES {
     }
 
     // Function to create a new random key
-    public String CreateKey()
+    public static String CreateKey()
     {
         StringBuilder key = new StringBuilder();
         while(key.length() != 64)
