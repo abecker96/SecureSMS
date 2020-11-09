@@ -371,7 +371,7 @@ public class DES {
         return ciphertext.toString();
     }
 
-    public String Decrypt(String message, String key)
+    public String Decrypt(String ciphertext, String key)
     {
         String[] round_keys;
         round_keys = generate_keys(key);
@@ -388,27 +388,27 @@ public class DES {
         }
 
         //convert to binary for DES
-        StringBuilder ciphertext = new StringBuilder(convertStringToBinary(message));
+        StringBuilder ct = new StringBuilder(convertStringToBinary(ciphertext));
         //initialize output string
         StringBuilder plaintext = new StringBuilder();
 
         //Remove the first 64 bits of the string at a time, return them as plaintext
-        while(ciphertext.length() >= 64)
+        while(ct.length() >= 64)
         {
-            plaintext.append(algorithm(ciphertext.substring(0, 63), round_keys));
-            ciphertext = new StringBuilder(ciphertext.substring(64, ciphertext.length() - 1));
+            plaintext.append(algorithm(ct.substring(0, 63), round_keys));
+            ct = new StringBuilder(ct.substring(64, ct.length() - 1));
         }
 
         //Take the remaining bits (if any), pad them, and decrypt them
-        if(ciphertext.length() != 0)
+        if(ct.length() != 0)
         {
-            while(ciphertext.length() != 64)
+            while(ct.length() != 64)
             {
-                ciphertext.append("0");
+                ct.append("0");
             }
-            plaintext.append(algorithm(ciphertext.substring(0,63), round_keys));
+            plaintext.append(algorithm(ct.substring(0,63), round_keys));
         }
 
-        return this.algorithm(message, round_keys);
+        return convertBinaryToString(plaintext.toString());
     }
 }
